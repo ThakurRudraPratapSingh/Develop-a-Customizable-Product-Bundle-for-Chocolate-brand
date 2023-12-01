@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Chocolate Pack</title>
+  <style>
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="number"] {
+      width: 50px;
+    }
+
+    .selected-items {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Build Your Custom Chocolate Pack</h1>
+
+<form id="customPackForm">
+  <label>
+    <input type="checkbox" name="chocolate" value="Dark Chocolate"> Dark Chocolate - $2.00
+    <input type="number" name="quantity" value="0" min="0">
+  </label>
+
+  <label>
+    <input type="checkbox" name="chocolate" value="Milk Chocolate"> Milk Chocolate - $1.50
+    <input type="number" name="quantity" value="0" min="0">
+  </label>
+
+  <label>
+    <input type="checkbox" name="chocolate" value="White Chocolate"> White Chocolate - $2.50
+    <input type="number" name="quantity" value="0" min="0">
+  </label>
+
+  <!-- Add more chocolates as needed -->
+
+  <div class="selected-items">
+    <h3>Selected Items:</h3>
+    <ul id="selectedItemsList"></ul>
+    <p>Total Price: $<span id="totalPrice">0.00</span></p>
+  </div>
+
+  <button type="button" onclick="calculateTotal()">Calculate Total</button>
+</form>
+
+<script>
+  function calculateTotal() {
+    const form = document.getElementById('customPackForm');
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    const quantities = form.querySelectorAll('input[name="quantity"]');
+    const totalPriceElement = document.getElementById('totalPrice');
+
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked && parseInt(quantities[i].value) > 0) {
+        const chocolate = checkboxes[i].value;
+        const quantity = parseInt(quantities[i].value);
+        const price = getPriceForChocolate(chocolate);
+
+        totalQuantity += quantity;
+        totalPrice += quantity * price;
+      }
+    }
+
+    if (totalQuantity > 8) {
+      alert('Total quantity should not exceed 8 items.');
+      return;
+    }
+
+    totalPriceElement.textContent = totalPrice.toFixed(2);
+  }
+
+  function getPriceForChocolate(chocolate) {
+    // Modify this function to return the price for each chocolate
+    // For simplicity, using a basic switch statement here
+    switch (chocolate) {
+      case 'Dark Chocolate':
+        return 2.00;
+      case 'Milk Chocolate':
+        return 1.50;
+      case 'White Chocolate':
+        return 2.50;
+      // Add more cases for additional chocolates
+      default:
+        return 0.00;
+    }
+  }
+</script>
+
+</body>
+</html>
